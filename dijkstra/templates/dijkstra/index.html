@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'dijkstra/css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'dijkstra/css/btns.min.css' %}" />
+
+  <script src="{% static 'dijkstra/js/cytoscape.min.js' %}"></script>
+  <script src="{% static 'dijkstra/js/lodash.js' %}"></script>
+  <script src="{% static 'dijkstra/js/cytoscape-edgehandles.js' %}"></script>
+  <script src="{% static 'dijkstra/js/app.js' %}"></script>
+
+  <body>
+    <div class="text">
+      <h1>Dijkstra:</h1>
+      <h1 class="respuesta">:</h1>
+    </div>
+    <div id="cy"></div>
+
+    <div id="buttons">
+      <button class="btn btn--s btn--black" id="reset">Reset</button>
+      <button class="btn btn--s btn--black" id="calcular">calcular</button>
+    </div>
+  </body>
+</html>
