@@ -30,4 +30,12 @@ body {
     height: 50px;
     bottom: 0;
     z-index: 99999;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .tip {
+    margin-right: 300px;
+    visibility: hidden;
+    font-weight: bold;
   }

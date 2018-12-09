@@ -129,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
       cy.elements().edges().length - 1
     ]._private.data.label = weight;
     newWeights.push(weight);
+    document.querySelector('.tip').style.visibility = 'visible'
   });
 
   // Dibujando nodo y agregando a array global
@@ -179,6 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
     newWeights = [];
   });
 
+  // calulando dijkstra
   document.querySelector("#calcular").addEventListener("click", function() {
     let inicio = prompt('ingrese el inicio')
     let final = prompt('Ingrese el final') 
