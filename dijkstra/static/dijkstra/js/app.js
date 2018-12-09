@@ -205,31 +205,71 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // calulando dijkstra
   document.querySelector("#calcular").addEventListener("click", function() {
-    let inicio = prompt("ingrese el inicio");
-    let final = prompt("Ingrese el final");
+    // let inicio = prompt("ingrese el inicio");
+    // let final = prompt("Ingrese el final");
+    let nodesDict = {};
 
-    const url = "http://localhost:8000/dijkstra/calcular";
-    let data = {
-      nodos: newNodes,
-      aristas: newEdges,
-      pesos: newWeights,
-      inicio: inicio.toUpperCase(),
-      destino: final.toLocaleUpperCase()
-    };
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest"
-      },
-      body: JSON.stringify(data)
-    })
-      .then(res => res.json())
-      .then(data => {
-        document.querySelector(".respuesta").textContent = `[${data.camino}]`;
-        return data;
+    for (let i = 0; i < newNodes.length; i++) {
+      nodesDict[newNodes[i]] = newNodes[i];
+    }
+
+    (async () => {
+      const { value: inicio } = await Swal({
+        title: "Ingrese el inicio",
+        input: "select",
+        inputOptions: nodesDict,
+        inputPlaceholder: "Nodo",
+        inputValidator: value => {
+          return new Promise(resolve => {
+            if(value) {
+              resolve()
+            } else {
+              resolve('Dege elegir un nodo')
+            }
+          });
+        }
+      });
+
+      const { value: final } = await Swal({
+        title: "Ingrese el destino",
+        input: "select",
+        inputOptions: nodesDict,
+        inputPlaceholder: "Nodo",
+        inputValidator: value => {
+          return new Promise(resolve => {
+            if(value) {
+              resolve()
+            } else {
+              resolve('Dege elegir un nodo')
+            }
+          });
+        }
+      });
+      console.log(inicio, final);
+
+      const url = "http://localhost:8000/dijkstra/calcular";
+      let data = {
+        nodos: newNodes,
+        aristas: newEdges,
+        pesos: newWeights,
+        inicio: inicio.toUpperCase(),
+        destino: final.toLocaleUpperCase()
+      };
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify(data)
       })
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
+        .then(res => res.json())
+        .then(data => {
+          document.querySelector(".respuesta").textContent = ' ' + data.camino
+          return data;
+        })
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
+    })();
   });
 });
