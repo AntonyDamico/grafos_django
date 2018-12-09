@@ -24,16 +24,17 @@ def dijkstra(request):
     if inicio not in nodos or destino not in nodos:
         return JsonResponse({'camino':'Use nodos que estén en pantalla'})
 
-    camino = grafo.dijkstra(data['inicio'], data['destino'])
-    camino_str = ''
-    for elemento in camino:
-        camino_str += ' ' + elemento + ','
-
     esta_inicio = [item for item in aristas if inicio in item]
     esta_destino = [item for item in aristas if destino in item]
     
     if not esta_inicio or not esta_destino:
         return JsonResponse({'camino':'Use nodos que estén conectados con aristas'})
+
+
+    camino = grafo.dijkstra(data['inicio'], data['destino'])
+    camino_str = ''
+    for elemento in camino:
+        camino_str += ' ' + elemento + ','
 
     print(camino_str[:-1])
     respuesta = {

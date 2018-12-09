@@ -195,6 +195,14 @@ document.addEventListener("DOMContentLoaded", function() {
     tgt.remove();
   });
 
+  function inNodes(node) {
+    for (let i = 0; i < newEdges.length; i++) {
+      if (newEdges[i].includes(node)) {
+        return true;
+      }
+    }
+  }
+
   // Boton para reiniciar el canvas
   document.querySelector("#reset").addEventListener("click", function() {
     cy.elements().remove();
@@ -221,10 +229,10 @@ document.addEventListener("DOMContentLoaded", function() {
         inputPlaceholder: "Nodo",
         inputValidator: value => {
           return new Promise(resolve => {
-            if(value) {
-              resolve()
+            if (value && inNodes(value)) {
+              resolve();
             } else {
-              resolve('Dege elegir un nodo')
+              resolve("Dege elegir un nodo que tenga arista");
             }
           });
         }
@@ -237,10 +245,10 @@ document.addEventListener("DOMContentLoaded", function() {
         inputPlaceholder: "Nodo",
         inputValidator: value => {
           return new Promise(resolve => {
-            if(value) {
-              resolve()
+            if (value && inNodes(value)) {
+              resolve();
             } else {
-              resolve('Dege elegir un nodo')
+              resolve("Dege elegir un nodo que tenga arista");
             }
           });
         }
@@ -265,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function() {
       })
         .then(res => res.json())
         .then(data => {
-          document.querySelector(".respuesta").textContent = ' ' + data.camino
+          document.querySelector(".respuesta").textContent = " " + data.camino;
           return data;
         })
         .then(data => console.log(data))
