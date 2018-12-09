@@ -3,7 +3,13 @@ console.log("hello");
 // Valores de inicio y globales
 var startNode = "A";
 var newNodes = ["A", "B", "C", "D"];
-var newEdges = [["A", "B", 3], ["A", "C", 2], ["B", "C", 2], ["B", "D", 1], ["C", "D", 3]];
+var newEdges = [
+  ["A", "B", 3],
+  ["A", "C", 2],
+  ["B", "C", 2],
+  ["B", "D", 1],
+  ["C", "D", 3]
+];
 var newWeights = [3, 2, 1, 2, 3];
 
 // Funcion para aumentar una letra: B+1 => C
@@ -118,18 +124,35 @@ document.addEventListener("DOMContentLoaded", function() {
 
   var eh = cy.edgehandles();
 
+  async function getWeight() {
+    const { value: peso } = await Swal({
+      title: "Ingrese el peso",
+      input: "text",
+      inputPlaceholder: "peso",
+      inputValidator: value => {
+        return isNaN(parseInt(value)) && "El peso debe ser un valor numérico";
+      }
+    });
+
+    return peso;
+  }
+
   // agregando peso y aristas a los arrays globales
   cy.on("ehcomplete", (event, sourceNode, targetNode, addedEles) => {
     let sourceNodeId = sourceNode._private.data.id;
     let targetNodeId = targetNode._private.data.id;
-    let weight = prompt("Ingrese el peso");
-    let newEdge = [sourceNodeId, targetNodeId, weight];
-    newEdges.push(newEdge);
-    cy.elements().edges()[
-      cy.elements().edges().length - 1
-    ]._private.data.label = weight;
-    newWeights.push(weight);
-    document.querySelector('.tip').style.visibility = 'visible'
+    // let weight = prompt("Ingrese el peso");
+
+    getWeight().then(val => {
+      let weight = val;
+      let newEdge = [sourceNodeId, targetNodeId, weight];
+      newEdges.push(newEdge);
+      cy.elements().edges()[
+        cy.elements().edges().length - 1
+      ]._private.data.label = weight;
+      newWeights.push(weight);
+      document.querySelector(".tip").style.visibility = "visible";
+    });
   });
 
   // Dibujando nodo y agregando a array global
@@ -182,8 +205,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // calulando dijkstra
   document.querySelector("#calcular").addEventListener("click", function() {
-    let inicio = prompt('ingrese el inicio')
-    let final = prompt('Ingrese el final') 
+    let inicio = prompt("ingrese el inicio");
+    let final = prompt("Ingrese el final");
 
     const url = "http://localhost:8000/dijkstra/calcular";
     let data = {
@@ -204,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function() {
       .then(res => res.json())
       .then(data => {
         document.querySelector(".respuesta").textContent = `[${data.camino}]`;
-        return data
+        return data;
       })
       .then(data => console.log(data))
       .catch(err => console.log(err));
