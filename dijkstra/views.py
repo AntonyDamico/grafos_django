@@ -8,7 +8,6 @@ from rest_framework.response import Response
 
 @csrf_exempt
 def main(request):
-    print(request)
     return render(request, 'dijkstra/index.html', {})
 
 
@@ -31,14 +30,15 @@ def dijkstra(request):
         return JsonResponse({'camino':'Use nodos que estén conectados con aristas'})
 
 
-    camino = grafo.dijkstra(data['inicio'], data['destino'])
+    camino, peso = grafo.dijkstra(data['inicio'], data['destino'])
     camino_str = ''
     for elemento in camino:
         camino_str += ' ' + elemento + ','
 
     print(camino_str[:-1])
     respuesta = {
-        'camino': camino_str[:-1]
+        'camino': camino_str[:-1],
+        'peso': peso
     }
     return JsonResponse(respuesta)
 
@@ -123,7 +123,6 @@ class Grafo:
         vertices = self.vertices.copy()
 
         while vertices:
-            print(vertices)
             # Te da el vertice al que hay menor distancia
             vertice_actual = min(
                 vertices, key=lambda vertice: distancias[vertice])
@@ -141,10 +140,11 @@ class Grafo:
 
         camino, vertice_actual = deque(), destino
         # Arma el camino final
+        peso_final = distancias[vertice_actual]
         while vertices_previos[vertice_actual] is not None:
             camino.appendleft(vertice_actual)
             vertice_actual = vertices_previos[vertice_actual]
         # Le da el vertice inicial al camino
         if camino:
             camino.appendleft(vertice_actual)
-        return camino
+        return camino, peso_final

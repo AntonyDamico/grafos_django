@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function() {
       })
         .then(res => res.json())
         .then(data => {
-          document.querySelector(".respuesta").textContent = " " + data.camino;
+          document.querySelector(".respuesta").textContent = ` ${data.camino}  - Peso: ${data.peso}`;
           return data;
         })
         .then(data => console.log(data))
