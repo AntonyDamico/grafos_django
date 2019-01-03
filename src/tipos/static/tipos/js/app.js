@@ -255,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
       console.log(inicio, final);
 
-      const url = "http://localhost:8000/dijkstra/calcular";
+      const url = "http://localhost:8000/tipos/calcular";
       let data = {
         nodos: newNodes,
         aristas: newEdges,

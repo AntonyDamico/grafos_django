@@ -15,7 +15,7 @@ def main(request):
 @csrf_exempt
 def calcular_tipos(request):
     data = request.data
-    print(data)
+    print("data!!!!!: ", data, type(data))
     aristas = [tuple(arista) for arista in data['aristas']]
     nodos = data['nodos']
     # grafo = Grafo(aristas)
