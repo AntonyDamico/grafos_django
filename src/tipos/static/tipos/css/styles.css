@@ -1,0 +1,41 @@
+body {
+    font-family: helvetica neue, helvetica, liberation sans, arial, sans-serif;
+    font-size: 14px;
+  }
+
+  #cy {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 999;
+  }
+
+  .text {
+    display:flex;
+    justify-content: center;
+  }
+
+  h1 {
+    opacity: 0.5;
+    font-size: 3em !important;
+    font-weight: bold;
+    margin-top: 3px !important;
+  }
+
+  #buttons {
+    position: absolute;
+    right: 0;
+    height: 50px;
+    bottom: 0;
+    z-index: 99999;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .tip {
+    margin-right: 300px;
+    visibility: hidden;
+    font-weight: bold;
+  }
