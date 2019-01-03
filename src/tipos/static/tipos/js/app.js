@@ -195,13 +195,13 @@ document.addEventListener("DOMContentLoaded", function() {
     tgt.remove();
   });
 
-  function inNodes(node) {
-    for (let i = 0; i < newEdges.length; i++) {
-      if (newEdges[i].includes(node)) {
-        return true;
-      }
-    }
-  }
+  // function inNodes(node) {
+  //   for (let i = 0; i < newEdges.length; i++) {
+  //     if (newEdges[i].includes(node)) {
+  //       return true;
+  //     }
+  //   }
+  // }
 
   // Boton para reiniciar el canvas
   document.querySelector("#reset").addEventListener("click", function() {
@@ -215,53 +215,53 @@ document.addEventListener("DOMContentLoaded", function() {
   document.querySelector("#calcular").addEventListener("click", function() {
     // let inicio = prompt("ingrese el inicio");
     // let final = prompt("Ingrese el final");
-    let nodesDict = {};
+    // let nodesDict = {};
 
-    for (let i = 0; i < newNodes.length; i++) {
-      nodesDict[newNodes[i]] = newNodes[i];
-    }
+    // for (let i = 0; i < newNodes.length; i++) {
+    //   nodesDict[newNodes[i]] = newNodes[i];
+    // }
 
-    (async () => {
-      const { value: inicio } = await Swal({
-        title: "Ingrese el inicio",
-        input: "select",
-        inputOptions: nodesDict,
-        inputPlaceholder: "Nodo",
-        inputValidator: value => {
-          return new Promise(resolve => {
-            if (value && inNodes(value)) {
-              resolve();
-            } else {
-              resolve("Dege elegir un nodo que tenga arista");
-            }
-          });
-        }
-      });
+    // (async () => {
+      // const { value: inicio } = await Swal({
+      //   title: "Ingrese el inicio",
+      //   input: "select",
+      //   inputOptions: nodesDict,
+      //   inputPlaceholder: "Nodo",
+      //   inputValidator: value => {
+      //     return new Promise(resolve => {
+      //       if (value && inNodes(value)) {
+      //         resolve();
+      //       } else {
+      //         resolve("Dege elegir un nodo que tenga arista");
+      //       }
+      //     });
+      //   }
+      // });
 
-      const { value: final } = await Swal({
-        title: "Ingrese el destino",
-        input: "select",
-        inputOptions: nodesDict,
-        inputPlaceholder: "Nodo",
-        inputValidator: value => {
-          return new Promise(resolve => {
-            if (value && inNodes(value)) {
-              resolve();
-            } else {
-              resolve("Dege elegir un nodo que tenga arista");
-            }
-          });
-        }
-      });
-      console.log(inicio, final);
+      // const { value: final } = await Swal({
+      //   title: "Ingrese el destino",
+      //   input: "select",
+      //   inputOptions: nodesDict,
+      //   inputPlaceholder: "Nodo",
+      //   inputValidator: value => {
+      //     return new Promise(resolve => {
+      //       if (value && inNodes(value)) {
+      //         resolve();
+      //       } else {
+      //         resolve("Dege elegir un nodo que tenga arista");
+      //       }
+      //     });
+      //   }
+      // });
+      // console.log(inicio, final);
 
       const url = "http://localhost:8000/tipos/calcular";
       let data = {
         nodos: newNodes,
         aristas: newEdges,
         // pesos: newWeights,
-        inicio: inicio.toUpperCase(),
-        destino: final.toLocaleUpperCase()
+        // inicio: inicio.toUpperCase(),
+        // destino: final.toLocaleUpperCase()
       };
       fetch(url, {
         method: "POST",
@@ -278,6 +278,6 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .then(data => console.log(data))
         .catch(err => console.log(err));
-    })();
+    // })();
   });
 });
