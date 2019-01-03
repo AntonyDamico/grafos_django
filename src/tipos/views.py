@@ -15,7 +15,6 @@ def main(request):
 @csrf_exempt
 def calcular_tipos(request):
     data = request.data
-    return JsonResponse({"camino": "123", "peso": 2})
     print("data!!!!!: ", data, type(data))
     aristas = [tuple(arista) for arista in data['aristas']]
     nodos = data['nodos']
