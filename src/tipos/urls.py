@@ -6,5 +6,5 @@ app_name = 'tipos'
 
 urlpatterns = [
     path('', views.main, name='main'),
-    path('calcular', views.dijkstra, name='calcular')
+    path('calcular', views.calcular_tipos, name='calcular')
 ]

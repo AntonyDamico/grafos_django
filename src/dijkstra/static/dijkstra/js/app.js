@@ -281,3 +281,27 @@ document.addEventListener("DOMContentLoaded", function() {
     })();
   });
 });
+
+
+function fillABC() {
+  const nodes = cy.nodes()
+  pos1 = nodes[3]._private.position
+  pos2 = nodes[1]._private.position
+  pos3 = nodes[2]._private.position
+
+  const canvas = document.querySelector("canvas[data-id='layer2-node']")
+  var context = canvas.getContext("2d");
+  context.beginPath();
+  context.moveTo(pos1.x, pos1.y);
+  context.lineTo(pos2.x, pos2.y);
+  context.lineTo(pos3.x, pos3.y);
+  context.closePath();
+  context.fillStyle = "#FFCC00";
+  context.fill();
+}
+
+
+
+
+
+
