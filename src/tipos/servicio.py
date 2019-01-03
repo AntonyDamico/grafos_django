@@ -66,14 +66,17 @@ def grafo_conexo(matriz):
 	
 	lista_aux = []
 	conexo = True
+	bandera = True
 	for nodo in conectados:
-		while conectados[nodo] != lista_aux or len(conectados[nodo]) < len(matriz) - 1:
+		while bandera and len(conectados[nodo]) < len(matriz) - 1:
+			bandera = False
 			lista_aux = conectados[nodo] 
 			for n in lista_aux:
 				ext = conectados[n]
 				for e in ext: 
 					if e not in conectados[nodo] and e != nodo:
 						conectados[nodo].append(e)
+						bandera = True
 		result =  all(elem in conectados[nodo]  for elem in no_conectados[nodo])
 		conexo = conexo and result
 	return conexo
@@ -88,9 +91,8 @@ def crear_matriz(nodos,aristas):
 
 
 
-def calcular_tipo(nodos,aristas):
+def run_test(nodos,aristas):
 	matriz = crear_matriz(nodos,aristas)
-	print(matriz)
 	grados = calcular_grados(matriz)
 	conexo = grafo_conexo(matriz)
 	respuestas = [
@@ -102,7 +104,6 @@ def calcular_tipo(nodos,aristas):
 		respuestas[1] = hamilton(grados)
 	print("Euler: {}".format(respuestas[0]))
 	print("Hamilton: {}".format(respuestas[1]))
-	return respuestas
 
  
 # nodos = ['A','B','C','D']
@@ -117,4 +118,16 @@ def calcular_tipo(nodos,aristas):
 # 	['D','C']
 # ]
 
-# run_test(nodos,aristas)
+# calcular_tipo(nodos,aristas)
+
+newNodes = ["A", "B", "C", "D"]
+newEdges = [
+	["A", "B"], 
+	["A", "C"], 
+	["B", "C"], 
+	["B", "D"], 
+	["C", "D"]
+]
+
+run_test(newNodes, newEdges)
+
