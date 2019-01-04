@@ -104,6 +104,7 @@ def run_test(nodos,aristas):
 		respuestas[1] = hamilton(grados)
 	print("Euler: {}".format(respuestas[0]))
 	print("Hamilton: {}".format(respuestas[1]))
+	return respuestas
 
  
 # nodos = ['A','B','C','D']
@@ -120,13 +121,14 @@ def run_test(nodos,aristas):
 
 # calcular_tipo(nodos,aristas)
 
-newNodes = ["A", "B", "C", "D"]
+newNodes = ["A", "B", "C"]
 newEdges = [
 	["A", "B"], 
 	["A", "C"], 
-	["B", "C"], 
-	["B", "D"], 
-	["C", "D"]
+	["B", "A"],
+	["B", "C"],
+	["C", "A"],
+	["C", "B"]
 ]
 
 run_test(newNodes, newEdges)
