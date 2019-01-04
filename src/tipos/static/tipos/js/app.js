@@ -3,7 +3,18 @@ console.log("hello");
 // Valores de inicio y globales
 var startNode = "A";
 var newNodes = ["A", "B", "C", "D"];
-var newEdges = [["A", "B"], ["A", "C"], ["B", "C"], ["B", "D"], ["C", "D"]];
+var newEdges = [
+  ["A", "B"],
+  ["B", "A"],
+  ["A", "C"],
+  ["C", "A"],
+  ["B", "C"],
+  ["C", "B"],
+  ["B", "D"],
+  ["D", "B"],
+  ["C", "D"],
+  ["D", "C"]
+];
 
 // Funcion para aumentar una letra: B+1 => C
 function nextChar(c) {
@@ -117,13 +128,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
   var eh = cy.edgehandles();
 
-
   // agregando peso y aristas a los arrays globales
   cy.on("ehcomplete", (event, sourceNode, targetNode, addedEles) => {
     let sourceNodeId = sourceNode._private.data.id;
     let targetNodeId = targetNode._private.data.id;
     let newEdge = [sourceNodeId, targetNodeId];
+    let reverseEdge = [targetNode, sourceNode]
     newEdges.push(newEdge);
+    newEdges.push(reverseEdge);
   });
 
   // Dibujando nodo y agregando a array global
