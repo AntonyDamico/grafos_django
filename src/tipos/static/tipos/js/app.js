@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let sourceNodeId = sourceNode._private.data.id;
     let targetNodeId = targetNode._private.data.id;
     let newEdge = [sourceNodeId, targetNodeId];
-    let reverseEdge = [targetNode, sourceNode]
+    let reverseEdge = [targetNodeId, sourceNodeId];
     newEdges.push(newEdge);
     newEdges.push(reverseEdge);
   });
@@ -201,9 +201,9 @@ document.addEventListener("DOMContentLoaded", function() {
     })
       .then(res => res.json())
       .then(data => {
-        document.querySelector(".respuesta").textContent = ` ${
-          data.camino
-        }  - Peso: ${data.peso}`;
+        // document.querySelector(".respuesta").textContent = ` ${
+        //   data.camino
+        // }  - Peso: ${data.peso}`;
         return data;
       })
       .then(data => console.log(data))
