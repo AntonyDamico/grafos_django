@@ -19,7 +19,7 @@ def main2(request):
 @csrf_exempt
 def calcular_tipos(request):
     data = request.data
-
+    print("data:\nNodos:", data['nodos'],"\nAristas:", data['aristas'])
     respuestas = run_test(data['nodos'], data['aristas'])
     respuestas_dict = {
         'euler': respuestas[0],
