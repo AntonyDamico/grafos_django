@@ -12,6 +12,8 @@ from .servicio import run_test
 def main(request):
     return render(request, 'tipos/index.html', {})
 
+def main2(request):
+    return render(request, 'tipos/index2.html', {})
 
 @api_view(['POST'])
 @csrf_exempt
