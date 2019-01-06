@@ -201,9 +201,10 @@ document.addEventListener("DOMContentLoaded", function() {
     })
       .then(res => res.json())
       .then(data => {
-        // document.querySelector(".respuesta").textContent = ` ${
-        //   data.camino
-        // }  - Peso: ${data.peso}`;
+        document.querySelector(".respuesta").innerHTML = `
+        <li>${data.euler}</li>
+        <li>${data.hamilton}</li>
+        `;
         return data;
       })
       .then(data => console.log(data))

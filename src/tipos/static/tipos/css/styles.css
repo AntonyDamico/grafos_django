@@ -24,6 +24,13 @@ body {
     margin-top: 3px !important;
   }
 
+  li {
+    opacity: 0.5;
+    font-size: 3em !important;
+    font-weight: bold;
+    margin-top: 3px !important;
+  }
+
   #buttons {
     position: absolute;
     right: 0;
