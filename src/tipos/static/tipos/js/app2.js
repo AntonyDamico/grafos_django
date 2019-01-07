@@ -176,13 +176,14 @@ document.addEventListener("DOMContentLoaded", function() {
   // Boton para reiniciar el canvas
   document.querySelector("#reset").addEventListener("click", function() {
     cy.elements().remove();
+    document.querySelector(".respuesta").innerHTML = ''
     newNodes = [];
     newEdges = [];
   });
 
   // calulando dijkstra
   document.querySelector("#calcular").addEventListener("click", function() {
-    const url = "http://localhost:8000/tipos/calcular";
+    const url = "http://localhost:8000/tipos/calcular-dirigido";
     let data = {
       nodos: newNodes,
       aristas: newEdges

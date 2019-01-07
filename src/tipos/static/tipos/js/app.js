@@ -180,6 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
   // Boton para reiniciar el canvas
   document.querySelector("#reset").addEventListener("click", function() {
     cy.elements().remove();
+    document.querySelector(".respuesta").innerHTML = ''
     newNodes = [];
     newEdges = [];
   });

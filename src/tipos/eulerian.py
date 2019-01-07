@@ -2,15 +2,15 @@ from copy import copy
 
 '''
 
-	is_connected - Checks if a graph in the form of a dictionary is 
+	esta_conectado - Checks if a graph in the form of a dictionary is 
 	connected or not, using Breadth-First Search Algorithm (BFS)
 
 '''
-def is_connected(G):
-	start_node = list(G)[0]
+def esta_conectado(G):
+	nodo_inicio = list(G)[0]
 	color = {v: 'white' for v in G}
-	color[start_node] = 'gray'
-	S = [start_node]
+	color[nodo_inicio] = 'gray'
+	S = [nodo_inicio]
 	while len(S) != 0:
 		u = S.pop()
 		for v in G[u]:
@@ -69,7 +69,7 @@ def calcular_no_dirigido(G):
 		for u in g[current_vertex]:
 			g[current_vertex].remove(u)
 			g[u].remove(current_vertex)
-			bridge = not is_connected(g)
+			bridge = not esta_conectado(g)
 			if bridge:
 				g[current_vertex].append(u)
 				g[u].append(current_vertex)
@@ -81,10 +81,10 @@ def calcular_no_dirigido(G):
 			g.pop(current_vertex)
 		trail.append((current_vertex, u))
 
-	respuesta += trail[0][0] + " "
+	respuesta += str(trail[0][0]) + " "
 	
 	for arista in trail:
-		respuesta += arista[1] + " "
+		respuesta += str(arista[1]) + " "
 
 	# respuesta += str(trail)
 	return respuesta
@@ -102,10 +102,64 @@ def calcular_no_dirigido(G):
 # # testing another eulerian cycle
 # print('2nd Eulerian Cycle')
 # G = {1: [2, 3, 4, 4], 2: [1, 3, 3, 4], 3: [1, 2, 2, 4], 4: [1, 1, 2, 3]}
-# print(fleury(G))
+# G = {'A': ['B'], 'B': ['C'], 'C': ['A']}
+# print(calcular_no_dirigido(G))
 
 # # testing an eulerian trail
 # print('Eulerian Trail')
 # G = {1: [2, 3], 2: [1, 3, 4], 3: [1, 2, 4], 4: [2, 3]}
 # print(fleury(G))
+
+
+# def calcular_dirigido(nodos, aristas):
+# 	grados = dict((nodo, []) for nodo in nodos)
+# 	for nodo in nodos:
+# 		pass
+
+
+
+
+
+# {'A': ['B', 'C', 'D'], 'B': ['A', 'D'], 'C': ['A', 'D'], 'D': ['B', 'A', 'C']}
+
+
+# nodos = ['A', 'B', 'C', 'D']
+# aristas = [['A','B'], ['B','C'], ['C','D'], ['D', 'A']]
+
+def calcular_dirigido(nodos, aristas):
+	grados_arr = [0] * len(nodos)
+	for i in range(len(nodos)):
+		for arista in aristas:
+			if arista[0] == nodos[i]:
+				grados_arr[i] += 1
+			elif arista[1] == nodos[i]:
+				grados_arr[i] -= 1
+
+	if not all(x == 1 or x==-1 or x==0 for x in grados_arr):
+		print(grados_arr)
+		return "No es un grafo euleriano"
+
+	nodo_actual = nodos[0]
+	if 1 in grados_arr:
+		grados_arr.index(1)
+	camino_temporal = [nodo_actual]
+	camino_final = []
+	
+	while camino_temporal:
+		nueva_arista = [sub_arista for sub_arista in aristas if nodo_actual == sub_arista[0]]
+		if nueva_arista:
+			nuevo_nodo = nueva_arista[0][1]
+			camino_temporal.append(nuevo_nodo)
+			nodo_actual = nuevo_nodo
+			aristas.remove(nueva_arista[0])
+		else:
+			nodo_actual = camino_temporal.pop()
+			camino_final.append(nodo_actual)
+	camino_final.reverse()
+	if camino_final[0] == camino_final[-1]:
+		return "Es un circuito euleriano: " + str(camino_final)
+	return "Es un camino euleriano: " + str(camino_final)
+
+# print(calcular_dirigido(nodos, aristas))
+
 
