@@ -43,12 +43,22 @@ def from_dict(G):
     return links
 
 
+def todos_nodos_en_aristas(G):
+    '''
+    Devuelve verdadero si todos los nodos pertenecen a alguna arista
+    '''
+    for key in G:
+        if not G[key]:
+            return False
+    return True
+
+
 def calcular_euleriano_no_dirigido(G):
     '''
     Devuelve el camino o circuito euleriano para un grafo no dirigido
     o no es grafo euleriano en el caso de que no lo sea
     '''
-    if len(G) == 1:
+    if len(G) == 1 or not todos_nodos_en_aristas(G):
         return 'No es un grafo euleriano.---'
 
     respuesta = 'Es un circuito euleriano: '
