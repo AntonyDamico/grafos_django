@@ -49,12 +49,12 @@ def calcular_euleriano_no_dirigido(G):
     o no es grafo euleriano en el caso de que no lo sea
     '''
     if len(G) == 1:
-        return 'No es un grafo euleriano'
+        return 'No es un grafo euleriano.---'
 
     respuesta = 'Es un circuito euleriano: '
     nodos_grado_im = nodos_grado_impar(G)
     if len(nodos_grado_im) > 2 or len(nodos_grado_im) == 1:
-        return 'No es un grafo euleriano'
+        return 'No es un grafo euleriano.---'
     elif len(nodos_grado_im) == 2:
         respuesta = 'Es un camino euleriano: '
     g = copy(G)
@@ -110,17 +110,16 @@ def calcular_euleriano_dirigido(nodos, aristas):
     Devuelve el camino o circuito euleriano para un grafo dirigido
     o no es grafo euleriano en el caso de que no lo sea
     '''
-    # grados_arr = [0] * len(nodos)
-    # for arista in aristas:
-    #     grados_arr[nodos.index(arista[0])] += 1
-    #     grados_arr[nodos.index(arista[1])] -= 1
+    if not aristas:
+        return "No es un grafo euleriano.---"
+
     grados_arr = calcular_grados(nodos, aristas)
 
     # Si la diferencia entre las aristas de entrada y salida de algún nodo
     # es mayor a 1, no es euleriano
     if not all(x == 1 or x == -1 or x == 0 for x in grados_arr):
         print(grados_arr)
-        return "No es un grafo euleriano"
+        return "No es un grafo euleriano.---"
 
     # Se empieza por el nodo que tiene mayor cantidad de salidas
     if 1 in grados_arr:
@@ -152,12 +151,8 @@ def calcular_euleriano_dirigido(nodos, aristas):
     # camino_final.reverse()
     camino_final_str = ''
     for nodo in camino_final:
-        camino_final_str += nodo + " "
+        camino_final_str += nodo + " -> "
 
     if camino_final[0] == camino_final[-1]:
         return "Es un circuito euleriano: " + camino_final_str
     return "Es un camino euleriano: " + camino_final_str
-
-# nodos = ['A', 'B', 'C', 'D', 'E']
-# aristas = [['B', 'A'], ['A', 'D'], ['D', 'B'], ['B', 'C'], ['C', 'E'], ['E', 'B']]
-# print(calcular_dirigido(nodos, aristas))
