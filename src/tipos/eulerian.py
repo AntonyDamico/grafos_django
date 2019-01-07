@@ -56,7 +56,7 @@ def from_dict(G):
 '''
 
 
-def calcular_no_dirigido(G):
+def calcular_euleriano_no_dirigido(G):
     '''
             checks if G has eulerian cycle or trail
     '''
@@ -131,7 +131,7 @@ def calcular_no_dirigido(G):
 # {'A': ['B', 'C', 'D'], 'B': ['A', 'D'], 'C': ['A', 'D'], 'D': ['B', 'A', 'C']}
 
 
-def calcular_dirigido(nodos, aristas):
+def calcular_euleriano_dirigido(nodos, aristas):
     grados_arr = [0] * len(nodos)
     for arista in aristas:
         grados_arr[nodos.index(arista[0])] += 1
