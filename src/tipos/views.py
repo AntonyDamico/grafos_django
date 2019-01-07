@@ -47,9 +47,8 @@ def calcular_tipos(request):
 @csrf_exempt
 def calcular_tipos_dirigidos(request):
     data = request.data
-    print('hola')
+    print(data['aristas'])
     respuesta_euleriano = calcular_dirigido(data['nodos'], data['aristas'])
-
     respuestas_dict = {
         'euler': respuesta_euleriano,
         'hamilton': ''

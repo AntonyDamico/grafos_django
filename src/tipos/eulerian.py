@@ -133,12 +133,6 @@ def calcular_no_dirigido(G):
 
 def calcular_dirigido(nodos, aristas):
     grados_arr = [0] * len(nodos)
-    # for i in range(len(nodos)):
-    # 	for arista in aristas:
-    # 		if arista[0] == nodos[i]:
-    # 			grados_arr[i] += 1
-    # 		elif arista[1] == nodos[i]:
-    # 			grados_arr[i] -= 1
     for arista in aristas:
         grados_arr[nodos.index(arista[0])] += 1
         grados_arr[nodos.index(arista[1])] -= 1
@@ -147,15 +141,22 @@ def calcular_dirigido(nodos, aristas):
         print(grados_arr)
         return "No es un grafo euleriano"
 
-    nodo_actual = nodos[0]
+    # nodo_actual = nodos[1]
     if 1 in grados_arr:
-        grados_arr.index(1)
+        nodo_actual = nodos[grados_arr.index(1)]
+    else:
+        for arista in aristas:
+            grados_arr[nodos.index(arista[0])] += 1
+            grados_arr[nodos.index(arista[1])] += 1
+        nodo_actual = nodos[grados_arr.index(max(grados_arr))]
+
     camino_temporal = [nodo_actual]
     camino_final = []
 
     while camino_temporal:
         nueva_arista = [
-            sub_arista for sub_arista in aristas if nodo_actual == sub_arista[0]]
+            sub_arista for sub_arista in aristas if nodo_actual == sub_arista[0]
+        ]
         if nueva_arista:
             nuevo_nodo = nueva_arista[0][1]
             camino_temporal.append(nuevo_nodo)
@@ -163,13 +164,17 @@ def calcular_dirigido(nodos, aristas):
             aristas.remove(nueva_arista[0])
         else:
             nodo_actual = camino_temporal.pop()
-            camino_final.append(nodo_actual)
-            # camino_final.insert(0, nodo_actual)
-    camino_final.reverse()
-    if camino_final[0] == camino_final[-1]:
-        return "Es un circuito euleriano: " + str(camino_final)
-    return "Es un camino euleriano: " + str(camino_final)
+            # camino_final.append(nodo_actual)
+            camino_final.insert(0, nodo_actual)
+    # camino_final.reverse()
+    camino_final_str = ''
+    for nodo in camino_final:
+        camino_final_str += nodo + " "
 
-# nodos = ['A', 'B', 'C', 'D']
-# aristas = [['A','B'], ['B','C'], ['C','D'], ['D', 'A']]
+    if camino_final[0] == camino_final[-1]:
+        return "Es un circuito euleriano: " + camino_final_str
+    return "Es un camino euleriano: " + camino_final_str
+
+# nodos = ['A', 'B', 'C', 'D', 'E']
+# aristas = [['B', 'A'], ['A', 'D'], ['D', 'B'], ['B', 'C'], ['C', 'E'], ['E', 'B']]
 # print(calcular_dirigido(nodos, aristas))
