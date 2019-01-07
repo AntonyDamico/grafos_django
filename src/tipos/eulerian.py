@@ -1,14 +1,11 @@
 from copy import copy
 
-'''
-
-	esta_conectado - Checks if a graph in the form of a dictionary is 
-	connected or not, using Breadth-First Search Algorithm (BFS)
-
-'''
-
 
 def esta_conectado(G):
+    '''
+    esta_conectado - checkea si los nodos del grafo están conectados 
+    usando la Busqueda en anchura - Breadth-First Search Algorithm (BFS)
+    '''
     nodo_inicio = list(G)[0]
     color = {v: 'white' for v in G}
     color[nodo_inicio] = 'gray'
@@ -23,26 +20,22 @@ def esta_conectado(G):
     return list(color.values()).count('black') == len(G)
 
 
-'''
-	odd_degree_nodes - returns a list of all G odd degrees nodes
-'''
-
-
-def odd_degree_nodes(G):
-    odd_degree_nodes = []
+def nodos_grado_impar(G):
+    '''
+    nodos_grado_impar - devuelve una lista con los nodos de grado impar
+    '''
+    nodos_grado_impar = []
     for u in G:
         if len(G[u]) % 2 != 0:
-            odd_degree_nodes.append(u)
-    return odd_degree_nodes
-
-
-'''
-	from_dict - return a list of tuples links from a graph G in a 
-	dictionary format
-'''
+            nodos_grado_impar.append(u)
+    return nodos_grado_impar
 
 
 def from_dict(G):
+    '''
+    from_dict - return a list of tuples links from a graph G in a 
+    dictionary format
+    '''
     links = []
     for u in G:
         for v in G[u]:
@@ -50,98 +43,86 @@ def from_dict(G):
     return links
 
 
-'''
-	fleury(G) - return eulerian trail from graph G or a 
-	string 'Not Eulerian Graph' if it's not possible to trail a path
-'''
-
-
 def calcular_euleriano_no_dirigido(G):
     '''
-            checks if G has eulerian cycle or trail
+    Devuelve el camino o circuito euleriano para un grafo no dirigido
+    o no es grafo euleriano en el caso de que no lo sea
     '''
     if len(G) == 1:
         return 'No es un grafo euleriano'
 
     respuesta = 'Es un circuito euleriano: '
-    odn = odd_degree_nodes(G)
-    if len(odn) > 2 or len(odn) == 1:
+    nodos_grado_im = nodos_grado_impar(G)
+    if len(nodos_grado_im) > 2 or len(nodos_grado_im) == 1:
         return 'No es un grafo euleriano'
-    elif len(odn) == 2:
+    elif len(nodos_grado_im) == 2:
         respuesta = 'Es un camino euleriano: '
     g = copy(G)
     trail = []
-    if len(odn) == 2:
-        u = odn[0]
+    if len(nodos_grado_im) == 2:
+        u = nodos_grado_im[0]
     else:
         u = list(g)[0]
     while len(from_dict(g)) > 0:
-        current_vertex = u
-        for u in g[current_vertex]:
-            g[current_vertex].remove(u)
-            g[u].remove(current_vertex)
+        nodo_actual = u
+        for u in g[nodo_actual]:
+            g[nodo_actual].remove(u)
+            g[u].remove(nodo_actual)
             bridge = not esta_conectado(g)
             if bridge:
-                g[current_vertex].append(u)
-                g[u].append(current_vertex)
+                g[nodo_actual].append(u)
+                g[u].append(nodo_actual)
             else:
                 break
         if bridge:
-            g[current_vertex].remove(u)
-            g[u].remove(current_vertex)
-            g.pop(current_vertex)
-        trail.append((current_vertex, u))
+            g[nodo_actual].remove(u)
+            g[u].remove(nodo_actual)
+            g.pop(nodo_actual)
+        trail.append((nodo_actual, u))
 
-    respuesta += str(trail[0][0]) + " "
+    respuesta += str(trail[0][0]) + " -> "
 
     for arista in trail:
-        respuesta += str(arista[1]) + " "
+        respuesta += str(arista[1]) + " -> "
 
-    # respuesta += str(trail)
     return respuesta
 
-# testing seven bridges of konigsberg
-# print('Konigsberg')
-# G = {0: [2, 2, 3], 1: [2, 2, 3], 2: [0, 0, 1, 1, 3], 3: [0, 1, 2]}
-# print(fleury(G))
 
-# # testing an eulerian cycle
-# print('1st Eulerian Cycle')
-# G = {0: [1, 4, 6, 8], 1: [0, 2, 3, 8], 2: [1, 3], 3: [1, 2, 4, 5], 4: [0, 3], 5: [3, 6], 6: [0, 5, 7, 8], 7: [6, 8], 8: [0, 1, 6, 7]}
-# print(fleury(G))
+'''
+==============================================
+|| Calculando grafos eulerianos dirigidos  ||
+==============================================
+'''
 
-# # testing another eulerian cycle
-# print('2nd Eulerian Cycle')
-# G = {1: [2, 3, 4, 4], 2: [1, 3, 3, 4], 3: [1, 2, 2, 4], 4: [1, 1, 2, 3]}
-# G = {'A': ['B'], 'B': ['C'], 'C': ['A']}
-# print(calcular_no_dirigido(G))
-
-# # testing an eulerian trail
-# print('Eulerian Trail')
-# G = {1: [2, 3], 2: [1, 3, 4], 3: [1, 2, 4], 4: [2, 3]}
-# print(fleury(G))
-
-
-# def calcular_dirigido(nodos, aristas):
-# 	grados = dict((nodo, []) for nodo in nodos)
-# 	for nodo in nodos:
-# 		pass
-
-
-# {'A': ['B', 'C', 'D'], 'B': ['A', 'D'], 'C': ['A', 'D'], 'D': ['B', 'A', 'C']}
-
-
-def calcular_euleriano_dirigido(nodos, aristas):
+def calcular_grados(nodos, aristas):
+    '''
+    Calcula la diferencia entre las aristas de entrada y salida
+    de cada nodo
+    '''
     grados_arr = [0] * len(nodos)
     for arista in aristas:
         grados_arr[nodos.index(arista[0])] += 1
         grados_arr[nodos.index(arista[1])] -= 1
+    return grados_arr
 
+def calcular_euleriano_dirigido(nodos, aristas):
+    '''
+    Devuelve el camino o circuito euleriano para un grafo dirigido
+    o no es grafo euleriano en el caso de que no lo sea
+    '''
+    # grados_arr = [0] * len(nodos)
+    # for arista in aristas:
+    #     grados_arr[nodos.index(arista[0])] += 1
+    #     grados_arr[nodos.index(arista[1])] -= 1
+    grados_arr = calcular_grados(nodos, aristas)
+
+    # Si la diferencia entre las aristas de entrada y salida de algún nodo
+    # es mayor a 1, no es euleriano
     if not all(x == 1 or x == -1 or x == 0 for x in grados_arr):
         print(grados_arr)
         return "No es un grafo euleriano"
 
-    # nodo_actual = nodos[1]
+    # Se empieza por el nodo que tiene mayor cantidad de salidas
     if 1 in grados_arr:
         nodo_actual = nodos[grados_arr.index(1)]
     else:
@@ -150,6 +131,8 @@ def calcular_euleriano_dirigido(nodos, aristas):
             grados_arr[nodos.index(arista[1])] += 1
         nodo_actual = nodos[grados_arr.index(max(grados_arr))]
 
+    # Pilas para hacer el algoritmo de Hielholzer
+    # https://math.stackexchange.com/questions/1871065/euler-path-for-directed-graph
     camino_temporal = [nodo_actual]
     camino_final = []
 
