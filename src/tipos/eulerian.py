@@ -68,7 +68,7 @@ def calcular_euleriano_no_dirigido(G):
     elif len(nodos_grado_im) == 2:
         respuesta = 'Es un camino euleriano: '
     g = copy(G)
-    trail = []
+    camino = []
     if len(nodos_grado_im) == 2:
         u = nodos_grado_im[0]
     else:
@@ -88,11 +88,11 @@ def calcular_euleriano_no_dirigido(G):
             g[nodo_actual].remove(u)
             g[u].remove(nodo_actual)
             g.pop(nodo_actual)
-        trail.append((nodo_actual, u))
+        camino.append((nodo_actual, u))
 
-    respuesta += str(trail[0][0]) + " -> "
+    respuesta += str(camino[0][0]) + " -> "
 
-    for arista in trail:
+    for arista in camino:
         respuesta += str(arista[1]) + " -> "
 
     return respuesta

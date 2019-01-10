@@ -1,43 +1,43 @@
-def encontrar_todos_caminos(graph, start, end, path=[]):
-    path = path + [start]
-    if start == end:
-        return [path]
-    # if not graph.has_key(start):
-    if not start in graph:
+def encontrar_todos_caminos(grafo, inicio, final, camino=[]):
+    camino = camino + [inicio]
+    if inicio == final:
+        return [camino]
+    # if not grafo.has_key(start):
+    if not inicio in grafo:
         return []
-    paths = []
-    for node in graph[start]:
-        if node not in path:
-            newpaths = encontrar_todos_caminos(graph, node, end, path)
-            for newpath in newpaths:
-                paths.append(newpath)
-    return paths
+    caminos = []
+    for nodo in grafo[inicio]:
+        if nodo not in camino:
+            nuevos_caminos = encontrar_todos_caminos(grafo, nodo, final, camino)
+            for nuevo_camino in nuevos_caminos:
+                caminos.append(nuevo_camino)
+    return caminos
 
 
-def calcular_camino(graph):
-    print(graph)
-    cycles = []
-    for startnode in graph:
-        for endnode in graph:
-            newpaths = encontrar_todos_caminos(graph, startnode, endnode)
-            for path in newpaths:
-                if (len(path) == len(graph)):
-                    cycles.append(path)
-    return cycles
+def calcular_camino(grafo):
+    print(grafo)
+    ciclos = []
+    for nodo_inicio in grafo:
+        for nodo_final in grafo:
+            nuevos_caminos = encontrar_todos_caminos(grafo, nodo_inicio, nodo_final)
+            for camino in nuevos_caminos:
+                if (len(camino) == len(grafo)):
+                    ciclos.append(camino)
+    return ciclos
 
 
-def calcular_circuito(graph):
-    cycles = []
-    for startnode in graph:
-        for endnode in graph:
-            newpaths = encontrar_todos_caminos(graph, startnode, endnode)
-            for path in newpaths:
-                if (len(path) == len(graph)):
-                    if path[0] in graph[path[len(graph)-1]]:
-                        # print path[0], graph[path[len(graph)-1]]
-                        path.append(path[0])
-                        cycles.append(path)
-    return cycles
+def calcular_circuito(grafo):
+    ciclos = []
+    for nodo_inicio in grafo:
+        for nodo_final in grafo:
+            nuevos_caminos = encontrar_todos_caminos(grafo, nodo_inicio, nodo_final)
+            for camino in nuevos_caminos:
+                if (len(camino) == len(grafo)):
+                    if camino[0] in grafo[camino[len(grafo)-1]]:
+                        # print camino[0], grafo[camino[len(grafo)-1]]
+                        camino.append(camino[0])
+                        ciclos.append(camino)
+    return ciclos
 
 
 def parse_respuesta(respuesta):
@@ -64,10 +64,10 @@ def calcular_hamilton(grafo):
 # from collections import defaultdict
 
 
-# class Graph2():
+# class grafo2():
 #     def __init__(self, vertices):
 #         lengt_v = len(vertices)
-#         self.graph = [[0 for column in range(lengt_v)]
+#         self.grafo = [[0 for column in range(lengt_v)]
 #                       for row in range(lengt_v)]
 #         self.nodos = vertices
 #         self.V = lengt_v
@@ -75,16 +75,16 @@ def calcular_hamilton(grafo):
 
 #     ''' Check if this vertex is an adjacent vertex
 # 		of the previously added vertex and is not
-# 		included in the path earlier '''
+# 		included in the camino earlier '''
 
-#     def isSafe(self, v, pos, path):
+#     def isSafe(self, v, pos, camino):
 #         # Check if current vertex and last vertex
-#         # in path are adjacent
-#         if self.graph[path[pos-1]][v] == 0:
+#         # in camino are adjacent
+#         if self.grafo[camino[pos-1]][v] == 0:
 #             return False
 
-#         # Check if current vertex not already in path
-#         for vertex in path:
+#         # Check if current vertex not already in camino
+#         for vertex in camino:
 #             if vertex == v:
 #                 return False
 
@@ -92,14 +92,14 @@ def calcular_hamilton(grafo):
 
 #     # A recursive utility function to solve
 #     # hamiltonian cycle problem
-#     def hamCycleUtil(self, path, pos):
+#     def hamCycleUtil(self, camino, pos):
 
 #         # base case: if all vertices are
-#         # included in the path
+#         # included in the camino
 #         if pos == self.V:
 #             # Last vertex must be adjacent to the
-#             # first vertex in path to make a cyle
-#             if self.graph[path[pos-1]][path[0]] == 1:
+#             # first vertex in camino to make a cyle
+#             if self.grafo[camino[pos-1]][camino[0]] == 1:
 #                 return True
 #             else:
 #                 return False
@@ -109,16 +109,16 @@ def calcular_hamilton(grafo):
 #         # we included 0 as starting point in in hamCycle()
 #         for v in range(1, self.V):
 
-#             if self.isSafe(v, pos, path) == True:
+#             if self.isSafe(v, pos, camino) == True:
 
-#                 path[pos] = v
+#                 camino[pos] = v
 
-#                 if self.hamCycleUtil(path, pos+1) == True:
+#                 if self.hamCycleUtil(camino, pos+1) == True:
 #                     return True
 
 #                 # Remove current vertex if it doesn't
 #                 # lead to a solution
-#                 path[pos] = -1
+#                 camino[pos] = -1
 
 #         return False
 
@@ -126,27 +126,27 @@ def calcular_hamilton(grafo):
 #         if self.V == 2:
 #             return f"Es un camino hamiltoniano: {self.nodos[0]} {self.nodos[1]}"
 
-#         path = [-1] * self.V
+#         camino = [-1] * self.V
 
 #         ''' Let us put vertex 0 as the first vertex
-# 			in the path. If there is a Hamiltonian Cycle,
-# 			then the path can be started from any point
-# 			of the cycle as the graph is undirected '''
-#         path[0] = 0
+# 			in the camino. If there is a Hamiltonian Cycle,
+# 			then the camino can be started from any point
+# 			of the cycle as the grafo is undirected '''
+#         camino[0] = 0
 
-#         if self.hamCycleUtil(path, 1) == False:
+#         if self.hamCycleUtil(camino, 1) == False:
 #             return "No es un circuito hamiltoniano"
 
-#         self.printSolution(path)
+#         self.printSolution(camino)
 #         resultado = "Es un circuito hamiltoniano: "
 #         for nodo in self.camino:
 #             resultado += nodo + " "
 #         return resultado
 
-#     def printSolution(self, path):
-#         for vertex in path:
+#     def printSolution(self, camino):
+#         for vertex in camino:
 #             self.camino.append(self.nodos[vertex])
-#         self.camino.append(self.nodos[path[0]])
+#         self.camino.append(self.nodos[camino[0]])
 
 #     def crear_matriz(self, nodos, aristas):
 #         matriz = [[0] * len(nodos) for i in range(len(nodos))]
@@ -156,17 +156,17 @@ def calcular_hamilton(grafo):
 #             matriz[i][j] += 1
 #         return matriz
 
-#     def set_graph(self, nodos, aristas):
-#         self.graph = self.crear_matriz(nodos, aristas)
+#     def set_grafo(self, nodos, aristas):
+#         self.grafo = self.crear_matriz(nodos, aristas)
 
 
-# g1.set_graph = [ [0, 1, 0, 1, 0], [1, 0, 1, 1, 1],
+# g1.set_grafo = [ [0, 1, 0, 1, 0], [1, 0, 1, 1, 1],
 # 			[0, 1, 0, 0, 1,],[1, 1, 0, 0, 1],
 # 			[0, 1, 1, 1, 0], ]
 
 # def calcular_circuito_hamilton(nodos, aristas):
-#     grafo = Graph2(nodos)
-#     grafo.set_graph(nodos, aristas)
+#     grafo = grafo2(nodos)
+#     grafo.set_grafo(nodos, aristas)
 #     return grafo.hamCycle()
 
 
@@ -178,21 +178,21 @@ def calcular_hamilton(grafo):
 # 	['D','A'],
 # ]
 
-# g1 = Graph(nodos)
-# g1.set_graph(nodos, aristas)
+# g1 = grafo(nodos)
+# g1.set_grafo(nodos, aristas)
 
 # print(g1.hamCycle())
 
 
-# g2 = Graph(5)
-# g2.graph = [ [0, 1, 0, 1, 0], [1, 0, 1, 1, 1],
+# g2 = grafo(5)
+# g2.grafo = [ [0, 1, 0, 1, 0], [1, 0, 1, 1, 1],
 # 		[0, 1, 0, 0, 1,], [1, 1, 0, 0, 0],
 # 		[0, 1, 1, 0, 0], ]
 
 # Print the solution
 # print(g2.hamCycle())
 
-# graph = {
+# grafo = {
 #     'A': ['B'],
 #     'B': ['A'],
 # }
@@ -201,7 +201,7 @@ def calcular_hamilton(grafo):
 
 
 
-# print("Finding Hamiltonian Paths----")
+# print("Finding Hamiltonian caminos----")
 
-# a = calcular_circuito(graph)
+# a = calcular_circuito(grafo)
 # print(a)

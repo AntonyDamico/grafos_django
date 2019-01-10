@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function() {
   // Boton para reiniciar el canvas
   document.querySelector("#reset").addEventListener("click", function() {
     cy.elements().remove();
-    document.querySelector(".respuesta").innerHTML = ''
+    document.querySelector(".respuesta").innerHTML = '<h1>Digrafos</h1>'
     newNodes = [];
     newEdges = [];
   });

@@ -47,6 +47,6 @@ body {
 
   .tip {
     margin-right: 300px;
-    visibility: hidden;
+    /* visibility: hidden; */
     font-weight: bold;
   }
