@@ -1,5 +1,65 @@
-# Python program for solution of
-# hamiltonian cycle problem
+def encontrar_todos_caminos(graph, start, end, path=[]):
+    path = path + [start]
+    if start == end:
+        return [path]
+    # if not graph.has_key(start):
+    if not start in graph:
+        return []
+    paths = []
+    for node in graph[start]:
+        if node not in path:
+            newpaths = encontrar_todos_caminos(graph, node, end, path)
+            for newpath in newpaths:
+                paths.append(newpath)
+    return paths
+
+
+def calcular_camino(graph):
+    print(graph)
+    cycles = []
+    for startnode in graph:
+        for endnode in graph:
+            newpaths = encontrar_todos_caminos(graph, startnode, endnode)
+            for path in newpaths:
+                if (len(path) == len(graph)):
+                    cycles.append(path)
+    return cycles
+
+
+def calcular_circuito(graph):
+    cycles = []
+    for startnode in graph:
+        for endnode in graph:
+            newpaths = encontrar_todos_caminos(graph, startnode, endnode)
+            for path in newpaths:
+                if (len(path) == len(graph)):
+                    if path[0] in graph[path[len(graph)-1]]:
+                        # print path[0], graph[path[len(graph)-1]]
+                        path.append(path[0])
+                        cycles.append(path)
+    return cycles
+
+
+def parse_respuesta(respuesta):
+    respuesta_str = ''
+    for nodo in respuesta:
+        respuesta_str += nodo + ' -> '
+    return respuesta_str
+
+
+def calcular_hamilton(grafo):
+    respuesta = calcular_circuito(grafo)
+    if respuesta:
+        respuesta_str = parse_respuesta(respuesta[0])
+        return 'Es un circuito hamiltoniano: ' + respuesta_str
+
+    respuesta = calcular_camino(grafo)
+    if not respuesta or len(respuesta[0]) == 1:
+        return 'No es un grafo hamiltoniano.---'
+
+    respuesta_str = parse_respuesta(respuesta[0])
+    return 'Es un camino hamiltoniano: ' + respuesta_str
+    # return 'No es un grafo hamiltoniano'
 
 # from collections import defaultdict
 
@@ -138,68 +198,7 @@
 # }
 
 
-def encontrar_todos_caminos(graph, start, end, path=[]):
-    path = path + [start]
-    if start == end:
-        return [path]
-    # if not graph.has_key(start):
-    if not start in graph:
-        return []
-    paths = []
-    for node in graph[start]:
-        if node not in path:
-            newpaths = encontrar_todos_caminos(graph, node, end, path)
-            for newpath in newpaths:
-                paths.append(newpath)
-    return paths
 
-
-def calcular_camino(graph):
-    print(graph)
-    cycles = []
-    for startnode in graph:
-        for endnode in graph:
-            newpaths = encontrar_todos_caminos(graph, startnode, endnode)
-            for path in newpaths:
-                if (len(path) == len(graph)):
-                    cycles.append(path)
-    return cycles
-
-
-def calcular_circuito(graph):
-    cycles = []
-    for startnode in graph:
-        for endnode in graph:
-            newpaths = encontrar_todos_caminos(graph, startnode, endnode)
-            for path in newpaths:
-                if (len(path) == len(graph)):
-                    if path[0] in graph[path[len(graph)-1]]:
-                        # print path[0], graph[path[len(graph)-1]]
-                        path.append(path[0])
-                        cycles.append(path)
-    return cycles
-
-
-def parse_respuesta(respuesta):
-    respuesta_str = ''
-    for nodo in respuesta:
-        respuesta_str += nodo + ' -> '
-    return respuesta_str
-
-
-def calcular_hamilton(grafo):
-    respuesta = calcular_circuito(grafo)
-    if respuesta:
-        respuesta_str = parse_respuesta(respuesta[0])
-        return 'Es un circuito hamiltoniano: ' + respuesta_str
-
-    respuesta = calcular_camino(grafo)
-    if not respuesta or len(respuesta[0]) == 1:
-        return 'No es un grafo hamiltoniano.---'
-
-    respuesta_str = parse_respuesta(respuesta[0])
-    return 'Es un camino hamiltoniano: ' + respuesta_str
-    # return 'No es un grafo hamiltoniano'
 
 
 # print("Finding Hamiltonian Paths----")
